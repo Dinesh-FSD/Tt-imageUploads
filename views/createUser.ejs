@@ -1,0 +1,250 @@
+<!-- <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      *:before,
+       body {
+        padding: 10px 0;
+        font-family: "Source Sans Pro", sans-serif;
+        margin: 0;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+      }
+      ul li {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+        font-size: large;
+      }
+      nav ul {
+        display: flex;
+        margin: auto;
+        background-color: aqua;
+      }
+      nav li {
+        margin: 15px 10px;
+      }
+      li.nav-head {
+        font-size: 2em;
+      }
+      .push-right {
+        margin-left: auto;
+        padding-top: 7px;
+      }
+      .last-item {
+        padding-top: 7px;
+      }
+
+      .heading,
+      .descrption {
+        margin: 20px 0 30px 40%;
+      }
+      .form-footer {
+        margin: 0 0 0 48%;
+      }     *:after {
+        box-sizing: border-box;
+      }
+
+
+    </style>
+  </head>
+  <body>
+
+
+    <form action="/user/multiple-form" method="post" enctype="multipart/form-data" >
+      <div class="heading">
+        <label for="name" class="placeholder">Name</label>
+        <input id="name" type="text" name="User_name" placeholder="Enter your name " required />
+      </div>
+      <div class="descrption">
+        <input  type="text" name="User_desc" placeholder="Image description" required />
+        <input type="file" name="images" multiple required />
+      </div>
+      <div class="descrption">
+        <input  type="text" name="User_desc" placeholder="Image description" required />
+        <input type="file" name="images" multiple required />
+      </div>
+   
+      <button class="form-footer" type="text" class="submit">submit</button>
+    </form>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create User</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.js"></script>
+    <style>
+      
+        .error {
+            color: red;
+        }
+        .panel-primary {
+            border-color: #33cabb !important;
+        }
+        .btn-primary {
+            background-color: #33cabb !important;
+        }
+        .panel-primary .btn{
+            border-radius: 1px !important;
+            border-color: #33cabb !important;
+        }
+        .panel-primary>.panel-heading {
+            color: #fff !important;
+            background-color: #33cabb !important;
+            border-color: #33cabb !important;
+        }
+
+      ul li {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+        font-size: large;
+      }
+      nav ul {
+        display: flex;
+        margin: auto;
+        background-color: aqua;
+      }
+      nav li {
+        margin: 15px 10px;
+      }
+      li.nav-head {
+        font-size: 2em;
+      }
+      .push-right {
+        margin-left: auto;
+        padding-top: 7px;
+      }
+      .last-item {
+        padding-top: 7px;
+      }
+
+      .heading,
+      .descrption {
+        margin: 20px 0 30px 40%;
+      }
+      .form-footer {
+        margin: 0 0 0 48%;
+      }     *:after {
+        box-sizing: border-box;
+      }
+      .top-user{
+        margin-top: 30px;
+      }
+
+    </style>
+    <script>
+        $(document).ready(function ()
+        {
+
+            var i = 1;
+            var template = jQuery.validator.format($.trim($("#addChild").html()));
+            $("#btnAdd").click(function (e)
+            {
+                $(template(i++)).appendTo("#employeeList");
+                $('.netEmp').each(function ()
+                {
+                    $(this).rules("add", {
+                        required: true
+                    });
+                });
+                e.preventDefault();
+            });
+
+            $("#myForm").validate({
+                rules: {
+                    Name: "required"
+                }
+            });
+    
+        });
+    </script>
+
+    <script type="text/html" id="addChild">
+        <div class="form-group">
+            <div class="col-sm-4">
+              <label class="col-sm-4 " for="Name"> </label>
+                <input id="Name" name="User_desc" type="text" placeholder="Image description" required />
+            </div>
+            <div class="col-sm-4">
+              <input id="Name" name="images" type="file" multiple required />
+          </div>
+        </div>
+    </script>
+
+</head>
+<body>
+  <h1>Techno Tackle</h1>
+  <nav>
+    <ul>
+      <li class="nav-head">Code Lords</li>
+      <li class="push-right"><a href="/user/userList">User-List </a></li>
+      <li class="last-item"><a href="/user/about">About </a></li>
+    </ul>
+  </nav>
+    <div class="container top-user">
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Create User
+                </div>
+                <div class="panel-body">
+                    <form action="/user/multiple-form" method="post" enctype="multipart/form-data" class="form-horizontal" id="myForm">
+                        <div class="form-group">
+                             
+                            <div class="col-sm-3">
+                              <!-- <label  for="Name">User Name </label> -->
+                                <input id="Name" name="User_name" type="text" placeholder="Enter Your Name" required>
+                            </div>
+                            <div class="col-sm-3">
+                              
+                                <input id="Name" name="User_desc" type="text" placeholder="Image description" required />
+                            </div>
+                            <div class="col-sm-3">
+                              <input id="Name" name="images" type="file" multiple required />
+                          </div>
+                            <div class="col-sm-2">
+                                 <button id="btnAdd" class="btn btn-primary"><i class="glyphicon glyphicon-plus glyphicon "></i> Add User Details</button>
+                            </div>
+                        </div>
+                        <br />
+                        <div id="employeeList"></div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="button1id"></label>
+                            <div class="col-md-8">
+                                <button id="btnSubmit" type="submit" name="btnSubmit" class="btn btn-primary">Submit</button>
+                                
+                            </div>
+                        </div>
+                    </form>
+                    <!-- <input id="btnReset" type="reset" name="btnReset" class="btn btn-info" value="Reset"> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      let old_avatar_value = document.querySelectorAll('input[type="file"]')
+    </script>
+</body>
+</html>

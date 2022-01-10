@@ -1,0 +1,272 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>user Details Page</title>
+    <style>
+        *,*:before,*:after {
+            box-sizing: border-box;
+        }
+
+body {
+  padding: 10px 0;
+  font-family: "Source Sans Pro", sans-serif;
+  margin: 0;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin: 0;
+}
+ul li {
+        list-style:none;
+    }
+    a{
+        text-decoration: none;
+        font-size: large;
+        
+    }
+    nav ul {
+         display: flex;
+         margin: auto;
+         background-color: aqua;
+    }
+    nav li {
+         margin: 15px 10px;
+    }
+    li.nav-head {
+         font-size: 2em;
+        }
+    /* li.push-right{
+        font-size: 1em; */
+    /* } */
+    .push-right {
+         margin-left: auto;
+         padding-top: 7px;
+    }
+    .last-item{
+        padding-top: 7px;
+    }
+    .delete,.edit,.update {
+  background-color:  #f44336; 
+  border: none;
+  color: white;
+  width: 30%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  
+}
+.edit{
+  width:40%;
+  margin: 5px 0 0 14%;
+}
+.deletes {
+  background-color:  #f44336; 
+  border: 50px;
+  width: 30%;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+button a{
+    color: beige;
+}
+.update {
+    background-color: rgb(102, 165, 38);
+    margin-top: 10px;
+}
+.detail-form,.form2{
+    padding: 2% 5% 0 4%;
+}
+.mid{
+    max-width:150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.header {
+  text-align: center;
+  padding: 32px;
+}
+
+.row {
+  display: -ms-flexbox; 
+  display: flex;
+  -ms-flex-wrap: wrap; 
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+.column {
+  -ms-flex: 25%; 
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .column {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+.gal-corner{
+    padding: 5% 5% 0 5%;
+}
+.left-side{
+    position: absolute;
+    top:20%;
+    left : 55%;
+}
+.space{
+    margin-top: 5%;
+}
+
+ </style>
+  </head>
+  <body>
+
+    <h1>Techno Tackle</h1>
+    <nav>
+        <ul>
+            <li class="nav-head">Code Lords</li>
+            <li class="push-right"><a href="/user/userList">User-List </a></li>
+            <li class="last-item" ><a href="/user/about">About </a></li>
+            <li class="last-item"><a href="/user/create-user">Create-user </a></li>
+        </ul>
+    </nav>
+   
+    <div class="detail-form">
+      <h3>user Name :<%= result.User_name %></h3>
+      <p>user Id :<%= result._id %></p>
+      </div>
+    <div>
+           
+   <div class="left-side">
+       <h3>
+    Edit the values to be update
+   </h3>
+        <form id="hiddenform" action="/user/edit-user/<%= result._id %>" method="Post"  enctype="multipart/form-data" >
+            <div class="space">
+                <label for="name" >Name</label>
+                <input id="name" class="input" value="<%= result.User_name %> " type="text" name="User_name" placeholder=" " required  />
+                <button class="edit" type="submit">edit name</button> 
+            </div>
+      </div>
+    </div > 
+        <h3 class="mid" style="margin-top:30px;">Image Galleries</h3>
+          <div class="gal-corner">
+            <div class="row"> 
+              <div class="column">
+                <% for( let i = 0; i < result.avatar.length; i++ ) { %>
+                  <img src="http://localhost:4000/uploads/<%= result.avatar[i].Url %>"  width="15%" height="15%"/>
+                    <p><%= i+1 %>. Image Name: <%= result.avatar[i].Url %> </p>
+                    <p>Image description :<%= result.avatar[i].Desc %></p>
+                    <input type="file" class="index" name="images" multiple onclick="show_index(this)"/> 
+                    <input type="hidden" name="old_avatar" value="<%= result.avatar[i].Url %>" />
+                    <input type="hidden" name="old_Desc" value="<%= result.avatar[i].Desc %>" />
+                      <a class="deletes" data-doc="<%= result._id %> "  onclick="show_del_index(this)"> delete </a>
+                    
+                    <button type="submit" class="update">update </button>
+                <% } %>
+              </div>
+            </div>
+          </div>     
+
+      </form>
+      <% var url_data = []  %> 
+      <% result.avatar.forEach(element => { %>
+            <% url_data.push(element.Url) %> 
+      <% }) %>
+
+      <script>
+      let num = 0;
+      let data = "<%- url_data %>";
+      var img_data = data.split(',');
+        function show_index(which) {
+
+          for(i=0;i<which.parentNode.getElementsByClassName('index').length;i++){
+
+              if(which==which.parentNode.getElementsByClassName('index')[i]){
+                  num = i;
+                  console.log(num);
+                  console.log(img_data[num]);
+                  var x = document.createElement("INPUT");
+                  x.setAttribute("type", "hidden");
+                  x.setAttribute("name", "sel_imgUrl");
+                  x.setAttribute("value", img_data[num] );
+                  document.getElementById("hiddenform").appendChild(x);
+        }}
+        }
+
+        function show_del_index(which) {
+          for(i=0;i<which.parentNode.getElementsByClassName('deletes').length;i++){
+              if(which==which.parentNode.getElementsByClassName('deletes')[i]){
+                  let index = i;
+                  var del_imgUrl =  img_data[index];
+                  var data = {"value" : del_imgUrl}
+                  console.log(del_imgUrl);
+                  console.log(i);
+                  let id = "<%-result._id %>"
+                  console.log(id);
+                  const url = `http://localhost:4000/user/user-del/${id}`;
+                  console.log("the url is :", url);
+                  fetch(url, {
+                    method: "DELETE",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                      },   
+                    body: JSON.stringify({data:del_imgUrl,a:2}),
+                  })
+                    .then((res) => res.json())
+                    .then((data) => {
+                      window.location.href = data.redirect;
+                    })
+                    .catch((err) => console.log(err));
+                
+        }}}
+
+
+      </script>
+
+      <!-- <% function show_index(which){ %>   
+        <% let num = 0 %> 
+          <% for( let i = 0; i < which.parentNode.getElementsByClassName('index').length; i++ ) { %>
+              <% if (which == which.parentNode.getElementsByClassName('index')[i]) { %>
+              <% num = num+i %> 
+              <% } %>
+          <% } %>
+      <% } %>  -->
+      
+  </body> 
+</html>
